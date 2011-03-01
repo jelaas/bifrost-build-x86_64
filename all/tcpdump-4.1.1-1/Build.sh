@@ -62,7 +62,7 @@ cd $DST
 cd $DST
 rm -rf usr/share
 rm bin64/tcpdump.4.1.1
-strip usr/sbin/*
+strip bin64/*
 
 #########
 # Make package
