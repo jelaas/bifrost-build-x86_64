@@ -25,7 +25,7 @@ cd $CDIR/$SRCVER
 
 #########
 # Configure
-./Configure linux-elf --prefix=/usr --openssldir=/etc/ssl no-shared no-bf no-cast no-md2 no-mdc2 no-rc2 no-rc5 no-idea no-ripemd no-ec no-dso
+./Configure linux-x86_64 --prefix=/usr --openssldir=/etc/ssl no-shared no-bf no-cast no-md2 no-mdc2 no-rc2 no-rc5 no-idea no-ripemd no-ec no-dso
 
 #########
 # Post configure patch
