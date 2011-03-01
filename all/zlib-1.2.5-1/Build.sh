@@ -25,7 +25,7 @@ libtool_fix-1
 
 #########
 # Configure
-B-configure-1 --prefix=/usr || exit 1
+B-configure-1 --prefix=/usr --static --64 || exit 1
 sed -i 's/-DPIC//g' Makefile
 sed -i 's/-fPIC//g' Makefile
 
@@ -40,7 +40,15 @@ make -j 3 libz.a || exit 1
 #########
 # Install into dir under /var/tmp/install
 rm -rf "$DST"
-make prefix=$DST/usr install
+
+mkdir -p $DST/usr/lib
+mkdir -p $DST/usr/include
+mkdir -p $DST/usr/lib/pkgconfig
+
+cp libz.a $DST/usr/lib
+cp zlib.h $DST/usr/include
+cp zconf.h $DST/usr/include
+cp zlib.pc $DST/usr/lib/pkgconfig
 
 #########
 # Check result
