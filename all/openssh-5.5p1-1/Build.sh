@@ -14,7 +14,7 @@ DST="/var/tmp/install/$PKG"
 pkg_available zlib-1.2.5-1 tcp_wrappers-7.6-1 openssl-0.9.8n-2
 pkg_install zlib-1.2.5-1 || exit 2
 pkg_install tcp_wrappers-7.6-1 || exit 2
-pkg_install openssl-0.9.8n-2 || exit 2
+pkg_install openssl-0.9.8q-1 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src
