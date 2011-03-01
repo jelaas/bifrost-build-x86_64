@@ -61,7 +61,7 @@ cd $DST
 # Clean up
 cd $DST
 rm -rf usr/share
-rm usr/sbin/tcpdump.4.1.1
+rm bin64/tcpdump.4.1.1
 strip usr/sbin/*
 
 #########
