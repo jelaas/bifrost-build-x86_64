@@ -1,0 +1,140 @@
+ BUILD ENVIRONMENT FOR BIFROST
+-------------------------------
+
+A predictable and repeatable building environment for Bifrost binaries.
+Consists of a uclibc mini-native chroot environment and a this package
+of management and build scripts.
+
+Each package is identified by source version and build script version.
+A package may install dependencies in the form of other bifrost packages
+from this build environment.
+
+The 'pkg_build' script will ensure a clean environment (all installed
+dependencies are uninstalled) before the package's own build script is run.
+
+Installation:
+-------------
+Fetch the uclibc chroot tarball:
+$ cd /tmp
+$ wget http://uclibc.org/downloads/binaries/0.9.30.1/mini-native-x86_64.tar.bz2
+
+Put into a suitable place:
+$ mkdir /home/build
+$ cd /home/build
+$ tar xf /tmp/mini-native-x86_64.tar.bz2
+
+Install this package:
+$ mkdir -p mini-native-x86_64/var/lib
+$ cd mini-native-x86_64/var/lib
+$ git clone git://github.com/jelaas/bifrost-build-x86_64.git build
+
+Install helpful scripts:
+$ cd build
+$ cp -p util/chroot-x86_64.sh /home/build
+$ cp -p util/chroot-setup.sh /home/build/mini-native-x86_64/bin
+
+Do we need to install a newer bash? (bash version 3+)
+
+Usage:
+------
+
+Enter chroot:
+$ cd /home/build
+$ ./chroot-x86_64.sh
+$ cd /var/lib/build
+
+Start with building gnu tar:
+$ ./pkg_build tar-1.23-1
+
+Note: the first time you install a package or a build script installs a
+dependency it will try to install GNU tar.
+
+Package:
+--------
+
+Files in a package:
+ Build.sh
+ Fetch-source.sh
+
+"Build.sh"
+Configures, compiles and creates a package tarball which must be put in
+'/var/spool/pkg/' and names '<package>.tar.gz'. Where package is the same
+name as the directory under '/var/lib/build' that contains the package scripts.
+
+"Fetch-source.sh"
+Responsible for fetching any source files the package might need.
+These should be put under '/var/spool/src'.
+
+Example package:
+----------------
+
+The best way to create a new package is to copy the example scripts from
+the package 'example-1.0.0-1', which is located under the staging directory.
+
+The name of a package should be: "<application>-<version>-<build-version>".
+
+After a package has been published and you wish to change the logic in the
+scripts you need to create a new build-version for this. The same goes for
+a new version of the source. This to ensure that the resulting build is
+always identical.
+
+The management scripts:
+-----------------------
+
+pkg_available:
+ Help script for use by 'Build.sh'. It is there to help the user when more the
+ package needs more than one dependency. pkg_available will report which
+ dependencies need to be build (not recursively though).
+
+pkg_build:
+ Makes sure a working environment exists. Uninstalls any previously installed
+ packages (dependencies). Calls the 'Build.sh' script for the package.
+ 
+pkg_install:
+ Installs a package. Keeps track of which files are installed. Also takes
+ backup copies of any files that will be overwritten.
+
+pkg_src_fetch:
+ Calls 'Fetch-source.sh' for the package. This may be useful if you want to
+ stock up on source files before starting building.
+
+pkg_uninstall:
+ Removes the packages files. Also reinstalls any files that were backuped.
+
+Creating a package
+------------------
+
+While working on a new package there is a staging directory that is not
+tracked by git ("/var/lib/build/staging").
+
+$ cd /var/lib/build/staging
+For a base package:
+$ cp -a example-1.0.0-1 <pkg>-<version>-<build-version>
+For an optional package:
+$ cp -a opt-example-1.0.0-1 opt-<pkg>-<version>-<build-version>
+
+Edit Fetch-source.sh.
+Edit Build.sh.
+
+Testrun:
+$ /var/lib/build/pkg_build <pkg>-<version>-<build-version>
+
+Dependencies
+------------
+
+A package may have a number of dependencies for building. These dependencies
+may be in the form of libraries or utilities.
+The build script 'Build.sh' must install these dependencies by using the
+script 'pkg_install'. 'pkg_install' will keep track of what it installs so
+everything can be retracted later by 'pkg_uninstall'.
+
+Each build is supposed to start with a "clean" environment. Before each build
+the 'pkg_build' script will run the 'pkg_uninstall' script.
+
+__Important note_!!_
+Be careful with the install part of making the package. Make sure that
+for instance 'make install' wont install files under a real prefix into
+the actual build environment. You might inadvertently insert unknown
+dependencies into the environment.
+
+Many package will support the DESTDIR variable for 'make install'.

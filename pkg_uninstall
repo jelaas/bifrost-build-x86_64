@@ -1,0 +1,42 @@
+#!/bin/bash
+
+STATE=/var/state/installed_files
+STATEPKGS=/var/state/installed_pkgs
+TMPFILE=/tmp/installed_files_tmp.$$
+MOVEFILES=/var/state/movedfiles.tar
+
+rm -f $TMPFILE
+touch $TMPFILE
+trap "rm -f $TMPFILE" EXIT
+
+mkdir -p /var/state
+
+cd /
+# remount w
+
+cp -p /bin/tac /tmp/tac || exit 1
+cp -p /bin/rm /tmp/rm || exit 1
+cp -p /bin/cp /tmp/cp || exit 1
+cp -p /bin/rmdir /tmp/rmdir || exit 1
+
+if [ -s $STATE ]; then
+    /tmp/tac $STATE|while read f; do
+        if [ -d "$f" ]; then
+	    /tmp/rmdir $f &> /dev/null
+	    continue
+	fi
+        /tmp/rm -f "$f" || (echo "$f" >> $TMPFILE)
+    done
+fi
+/tmp/cp -f $TMPFILE $STATE
+/tmp/rm -f $TMPFILE
+/tmp/rm -f $STATEPKGS
+if [ -f $MOVEFILES ]; then
+    if tar xUf $MOVEFILES; then
+	/tmp/rm -f $MOVEFILES
+	/tmp/rm -f /tmp/tac /tmp/rm /tmp/rmdir /tmp/cp
+    else
+	echo "Failed restore backup of files in $MOVEFILES !!"
+    fi
+fi
+# remount r
