@@ -39,7 +39,7 @@ make -j || exit 1
 # Install into dir under /var/tmp/install
 rm -rf "$DST"
 make install DESTDIR=$DST # --with-install-prefix may be an alternative
-mv $DST/bin $DST/bin32
+mv $DST/bin $DST/bin64
 
 #########
 # Check result
@@ -51,7 +51,7 @@ cd $DST
 # Clean up
 cd $DST
 rm -rf share
-strip bin32/*
+strip bin64/*
 
 #########
 # Make package

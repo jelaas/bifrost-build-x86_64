@@ -60,7 +60,7 @@ make || exit 1
 rm -rf "$DST"
 make install DESTDIR=$DST # --with-install-prefix may be an alternative
 
-mv $DST/sbin $DST/bin32
+mv $DST/sbin $DST/bin64
 
 #########
 # Check result
@@ -72,7 +72,7 @@ cd $DST
 # Clean up
 cd $DST
 rm -rf share
-strip bin32/*
+strip bin64/*
 
 #########
 # Make package

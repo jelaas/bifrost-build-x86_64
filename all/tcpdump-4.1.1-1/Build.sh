@@ -36,7 +36,7 @@ libtool_fix-1
 
 #########
 # Configure
-B-configure-1 --prefix=/usr || exit 1
+B-configure-1 --prefix=/usr --bindir=/bin64 --sbindir=/bin64 || exit 1
 
 #########
 # Post configure patch
