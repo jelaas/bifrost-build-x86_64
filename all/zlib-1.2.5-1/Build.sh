@@ -26,8 +26,8 @@ libtool_fix-1
 #########
 # Configure
 B-configure-1 --prefix=/usr || exit 1
-sed 's/-DPIC//g' Makefile|sed 's/-fPIC//g' > /tmp/makefile.$$
-cp -f /tmp/makefile.$$ Makefile; rm -f /tmp/makefile.$$ 
+sed -i 's/-DPIC//g' Makefile
+sed -i 's/-fPIC//g' Makefile
 
 #########
 # Post configure patch
@@ -35,7 +35,7 @@ cp -f /tmp/makefile.$$ Makefile; rm -f /tmp/makefile.$$
 
 #########
 # Compile
-make -j libz.a|| exit 1
+make -j 3 libz.a || exit 1
 
 #########
 # Install into dir under /var/tmp/install
@@ -44,7 +44,7 @@ make prefix=$DST/usr install
 
 #########
 # Check result
-cd $DST
+cd $DST || exit 1
 # [ -f usr/bin/myprog ] || exit 1
 # (file usr/bin/myprog | grep -qs "statically linked") || exit 1
 
