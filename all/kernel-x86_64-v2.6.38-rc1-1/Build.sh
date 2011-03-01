@@ -52,8 +52,7 @@ cp -f $PKGDIR/config .config
 
 #########
 # Compile
-exit 1
-make -j 3 || exit 1
+make -j 9 || exit 1
 
 #########
 # Install into dir under /var/tmp/install
