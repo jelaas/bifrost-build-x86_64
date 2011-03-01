@@ -43,7 +43,7 @@ B-configure-1 --prefix=/usr || exit 1
 #########
 # Post configure patch
 # patch -p0 < $PKGDIR/Makefile.pat
-sedit 's/-O2 -fpic//g' Makefile
+#sedit 's/-O2 -fpic//g' Makefile
 
 #########
 # Compile
