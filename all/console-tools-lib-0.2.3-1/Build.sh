@@ -32,6 +32,7 @@ patch -p0 < $PKGDIR/acm_c.pat || exit 1
 patch -p0 < $PKGDIR/local_h.pat || exit 1
 patch -p0 < $PKGDIR/showkey_c.pat || exit 1
 patch -p0 < $PKGDIR/codepage_c.pat || exit 1
+patch -p0 < $PKGDIR/config_sub.pat || exit 1
 
 #########
 # Configure
