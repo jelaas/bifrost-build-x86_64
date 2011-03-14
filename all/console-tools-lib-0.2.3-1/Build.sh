@@ -35,7 +35,7 @@ patch -p0 < $PKGDIR/codepage_c.pat || exit 1
 
 #########
 # Configure
-$PKGDIR/B-configure-1 --disable-nls --prefix=/usr || exit 1
+$PKGDIR/B-configure-1 --disable-nls --prefix=/usr x86_64-linux || exit 1
 
 #########
 # Post configure patch
