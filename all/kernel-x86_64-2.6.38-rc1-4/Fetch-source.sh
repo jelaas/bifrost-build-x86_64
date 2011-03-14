@@ -11,7 +11,7 @@ if [ ! -s "$DST" ]; then
     pkg_install openssh-5.5p1-1 || exit 2
     cd /tmp
     rm -rf $VER
-    /opt/git/bin/git clone git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next-2.6.git $VER || exit 1
+    /opt/git/bin/git clone http://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next-2.6.git $VER || exit 1
     cd $VER
     /opt/git/bin/git checkout v$V || exit 1
     cd /tmp
