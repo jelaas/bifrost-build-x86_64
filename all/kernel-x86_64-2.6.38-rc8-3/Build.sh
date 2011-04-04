@@ -3,7 +3,7 @@
 V=2.6.38-rc8
 ARCH=x86_64
 SRCVER=kernel-$V
-BUILDVERSION=2
+BUILDVERSION=3
 PKG=kernel-$ARCH-$V-$BUILDVERSION # with build version
 
 # PKGDIR is set by 'pkg_build'. Usually "/var/lib/build/all/$PKG".
