@@ -42,6 +42,7 @@ pkg_install bash-4.1-1 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src
+[ -d "$BUILDDIR" ] && rm -rf "$BUILDDIR"
 cd $(dirname $BUILDDIR); tar xf $SRC
 
 #########
@@ -110,57 +111,15 @@ echo "title   $PKG-bifrost" > $DSTS/boot/grub/$PKG-bifrost.grub
 echo "root    (hd0,0)" >> $DSTS/boot/grub/$PKG-bifrost.grub
 echo "kernel /boot/$PKG-bifrost rhash_entries=131072 root=/dev/sda1 rootdelay=10" >> $DSTS/boot/grub/$PKG-bifrost.grub
 
-# Filter out unsupported modules
-function filter_modules {
-	while read L; do
-		n=0
-		if [ -d "$L" ]; then
-			mkdir -p $DSTU/$L
-			mkdir -p $DSTW/$L
-			continue
-		fi
-		for unsup in net/batman-adv net/ceph/libceph.ko block/DAC960.ko block/cciss.ko \
-			     drivers/ide; do
-			if [[ $L =~ $unsup ]]; then
-				mv $L $DSTU/$L || exit 1
-			fi
-			continue
-		done
-		for wireless in wireless net/mac80211; do
-			if [[ $L =~ $wireless ]]; then
-				mv $L $DSTW/$L || exit 1
-				n=1
-			fi
-			continue
-		done
-		[ $n = 1 ] && continue
-		for supported in kernel/arch/ kernel/crypto/ kernel/lib/ kernel/net/ kernel/fs/fat kernel/fs/nls \
-				loop.ko ata_piix.ko; do
-			[[ $L =~ $supported ]] && n=1
-		done
-		[ $n = 1 ] && continue
-		for unsup in /drivers/ata/ /drivers/parport/ /block/paride/ /char/agp/ /i2c/ message/fusion \
-				/mfd/ /drivers/ssb /scsi/ /target/ /uio/ /usb/gadget/; do
-			if [[ $L =~ $unsup ]]; then
-				mv $L $DSTU/$L || exit 1
-			fi
-			continue
-		done
-
-		if [[ $L =~ kernel/drivers/ ]]; then
-			[[ $L =~ kernel/drivers/net/ ]] || continue
-		fi
-		for supported in e1000 igb ixgbe mdio tulip veth macvlan tg3 niu ixgb bonding; do
-			[[ $L =~ $supported ]] && n=1
-		done
-		[ $n = 1 ] && continue
-		mv $L $DSTU/$L || exit 1
-	done
-}
 cd $DSTS
 
-[ -d lib/modules/$V-$BUILDVERSION-bifrost-$ARCH/kernel ] || exit 1
-find lib/modules/$V-$BUILDVERSION-bifrost-$ARCH/kernel|filter_modules
+if [ -d lib/modules/$V-$BUILDVERSION-bifrost-$ARCH/kernel ]; then
+	echo "Modules directory 'lib/modules/$V-$BUILDVERSION-bifrost-$ARCH/kernel' missing!"
+	exit 1
+fi
+
+export DSTS DSTU DSTW DSTF DSTV
+find lib/modules/$V-$BUILDVERSION-bifrost-$ARCH/kernel|bash $PKGDIR/Filter.sh
 
 # firmware to unsupported
 mkdir -p $DSTF/lib
