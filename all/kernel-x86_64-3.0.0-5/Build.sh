@@ -113,7 +113,7 @@ echo "kernel /boot/$PKG-bifrost rhash_entries=131072 root=/dev/sda1 rootdelay=10
 
 cd $DSTS
 
-if [ -d lib/modules/$V-$BUILDVERSION-bifrost-$ARCH/kernel ]; then
+if [ ! -d lib/modules/$V-$BUILDVERSION-bifrost-$ARCH/kernel ]; then
 	echo "Modules directory 'lib/modules/$V-$BUILDVERSION-bifrost-$ARCH/kernel' missing!"
 	exit 1
 fi
