@@ -92,6 +92,7 @@ cd $DST
 # Clean up
 cd $DST
 rm -rf opt/apache/lib opt/apache/manual opt/apache/man\
+ opt/apache/cgi-bin/*\
  opt/apache/icons opt/apache/include var opt/apache/build
 strip opt/apache/bin/*
 
