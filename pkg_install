@@ -58,6 +58,14 @@ if [ -z "$pkgfile" ]; then
 fi
 
 if [ "$INTERNAL" = no ]; then
+    if ! grep -qs ":mkdir-1:" $PERMPKGS; then
+	echo "Trying to install mkdir-1 for full functionality."
+	if ! /var/lib/build/pkg_install --internal --permanent mkdir-1; then
+	    echo "I need pkg mkdir-1 permanently installed!"
+	    echo "Please run: \"/var/lib/build/pkg_build mkdir-1\""
+	    exit 1
+	fi
+    fi
     if ! grep -qs ":$TARPKG:" $PERMPKGS; then
 	echo "Trying to install $TARPKG for full functionality."
 	if ! /var/lib/build/pkg_install --internal --permanent $TARPKG; then
