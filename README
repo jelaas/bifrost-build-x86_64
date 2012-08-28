@@ -43,11 +43,16 @@ $ cd /home/build
 $ ./chroot-x86_64.sh
 $ cd /var/lib/build
 
-Start with building gnu tar:
+Start with building mkdir and gnu tar:
+$ ./pkg_build mkdir-1
+$ ./pkg_install --permanent mkdir-1
 $ ./pkg_build tar-1.23-1
 
 Note: the first time you install a package or a build script installs a
-dependency it will try to install GNU tar.
+dependency it will try to install mkdir-1 and GNU tar.
+
+Note2: A separate mkdir implementation is needed since the busybox mkdir
+included is has a file permission bug.
 
 Package:
 --------
