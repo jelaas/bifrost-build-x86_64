@@ -28,6 +28,11 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 # Install dependencies:
 # pkg_available dependency1-1 dependency2-1
 # pkg_install dependency1-1 || exit 2
+# pkg_install groff-1.21-1 || exit 2 # Needed to convert man-pages: see below
+
+# Compile against musl:
+# pkg_install musl-0.9.1-1 || exit 2 
+# export CC=musl-gcc
 
 #########
 # Unpack sources into dir under /var/tmp/src
@@ -41,7 +46,7 @@ libtool_fix-1
 
 #########
 # Configure
-B-configure-1 --prefix=/usr || exit 1
+B-configure-2 --prefix=/usr || exit 1
 [ -f config.log ] && cp -p config.log /var/log/config/$PKG-config.log
 
 #########
@@ -58,6 +63,11 @@ rm -rf "$DST"
 make install DESTDIR=$DST # --with-install-prefix may be an alternative
 
 #########
+# Convert man-pages
+cd $DST || exit 1
+# for f in $(find . -path \*man/man\*); do if [ -f $f ]; then groff -T utf8 -man $f > $f.txt; rm $f; fi; done
+
+#########
 # Check result
 cd $DST || exit 1
 # [ -f usr/bin/myprog ] || exit 1
@@ -69,6 +79,8 @@ cd $DST || exit 1
 # rm -rf usr/share usr/man
 [ -d bin ] && strip bin/*
 [ -d usr/bin ] && strip usr/bin/*
+[ -d sbin ] && strip sbin/*
+[ -d usr/sbin ] && strip usr/sbin/*
 
 #########
 # Make package
