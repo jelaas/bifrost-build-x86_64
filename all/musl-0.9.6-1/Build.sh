@@ -64,6 +64,10 @@ echo /opt/musl/lib > $DST/etc/ld-musl-i486.path
 echo /opt/musl/lib > $DST/etc/ld-musl-i586.path
 echo /opt/musl/lib > $DST/etc/ld-musl-i686.path
 
+cd $DST || exit 1
+patch -p0 < $PKGDIR/musl-gcc.specs.pat || exit 1
+cp $PKGDIR/musl-gcc usr/bin/musl-gcc || exit 1
+
 #########
 # Check result
 cd $DST || exit 1
