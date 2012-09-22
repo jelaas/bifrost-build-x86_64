@@ -24,3 +24,16 @@
 +	return syscall(SYS_ipc, IPCOP_msgctl, q, cmd, 0, buf, 0);
  #endif
  }
+--- src/ipc/shmctl.c.orig	Sat Sep 22 17:10:52 2012
++++ src/ipc/shmctl.c	Sat Sep 22 17:13:10 2012
+@@ -5,8 +5,8 @@
+ int shmctl(int id, int cmd, struct shmid_ds *buf)
+ {
+ #ifdef SYS_shmctl
+-	return syscall(SYS_shmctl, id, cmd | IPC_MODERN, buf);
++	return syscall(SYS_shmctl, id, cmd, buf);
+ #else
+-	return syscall(SYS_ipc, IPCOP_shmctl, id, cmd | IPC_MODERN, 0, buf, 0);
++	return syscall(SYS_ipc, IPCOP_shmctl, id, cmd, 0, buf, 0);
+ #endif
+ }
