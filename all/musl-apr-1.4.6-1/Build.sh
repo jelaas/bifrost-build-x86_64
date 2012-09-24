@@ -38,7 +38,6 @@ cd $(dirname $BUILDDIR); tar xf $SRC
 # Patch
 cd $BUILDDIR || exit 1
 libtool_fix-1
-sed -i 's/SOCK_STREAM|SOCK_CLOEXEC/SOCK_STREAM|SOCK_CLOEXECXXX/' configure
 
 #########
 # Configure
@@ -48,6 +47,11 @@ B-configure-1 --prefix=/opt/musl --disable-dso --enable-nonportable-atomics || e
 #########
 # Post configure patch
 # patch -p0 < $PKGDIR/Makefile.pat
+# Compability with old kernels
+echo '#undef HAVE_ACCEPT4' >> include/arch/unix/apr_private.h
+echo '#undef HAVE_DUP3' >> include/arch/unix/apr_private.h
+echo '#undef HAVE_EPOLL_CREATE1' >> include/arch/unix/apr_private.h
+echo '#undef HAVE_SOCK_CLOEXEC' >> include/arch/unix/apr_private.h
 
 #########
 # Compile
