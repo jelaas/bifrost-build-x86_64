@@ -162,8 +162,8 @@ static proxy_worker *find_best_byip(proxy_balancer *balancer,
 	
 	if (mycandidate) {
 		ap_log_error(APLOG_MARK, APLOG_DEBUG, 0, r->server, APLOGNO(01208)
-			     "proxy: byip selected worker \"%s\"",
-			     mycandidate->s->name);
+			     "proxy: byip selected worker \"%s\" for %s hash %u %% %d = %d",
+			     mycandidate->s->name, r->useragent_ip, hash, balancer->workers->nelts, n);
 		
 	}
     
