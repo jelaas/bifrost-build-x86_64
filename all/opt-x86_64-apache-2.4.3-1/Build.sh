@@ -54,8 +54,7 @@ B-configure-1 --prefix=/opt/apache --disable-nls --enable-static-support\
  --with-z=/opt/musl\
  --with-apr=/opt/musl/bin/apr-1-config --with-apr-util=/opt/musl/bin/apu-1-config\
  --with-pcre=/opt/musl/bin/pcre-config --with-libxml2=/opt/musl/include/libxml2\
- --with-module=aaa:limitipconn\
- --with-module=proxy:lbmethod_byip\
+ --with-module=aaa:limitipconn,proxy:lbmethod_byip\
  --enable-lbmethod-byrequests --enable-lbmethod-bybusyness --enable-lbmethod-heartbeat\
  --enable-heartbeat --enable-heartmonitor --enable-proxy-fdpass\
  --with-mpm=event --enable-suexec\
