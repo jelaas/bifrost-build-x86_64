@@ -1,0 +1,26 @@
+#!/bin/bash
+
+PKG=open-vm-tools36
+BINDIR=/opt/$PKG/bin
+MODDIR=/opt/$PKG/modules
+
+case "$1" in
+    start)
+        printf "\nstarting: $PKG"
+	insmod $MODDIR/vmxnet.ko
+	insmod $MODDIR/vmblock.ko
+	insmod $MODDIR/vsock.ko
+	insmod $MODDIR/vmci.ko
+        ;;
+    stop)
+        printf "\nstopping: $PKG"
+	rmmod vmxnet.ko
+	rmmod vmblock.ko
+	rmmod vsock.ko
+	rmmod vmci.ko
+        ;;
+    *)
+        printf "\n\tUsage: $0 < start | stop >\n\n"
+        ;;
+esac
+
