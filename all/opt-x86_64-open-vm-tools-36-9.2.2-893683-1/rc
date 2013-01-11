@@ -9,8 +9,8 @@ case "$1" in
         printf "\nstarting: $PKG"
 	insmod $MODDIR/vmxnet.ko
 	insmod $MODDIR/vmblock.ko
-	insmod $MODDIR/vsock.ko
 	insmod $MODDIR/vmci.ko
+	insmod $MODDIR/vsock.ko
         ;;
     stop)
         printf "\nstopping: $PKG"
