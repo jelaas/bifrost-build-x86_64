@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PKG=open-vm-tools36
+PKG=x86_64-open-vm-tools36
 BINDIR=/opt/$PKG/bin
 MODDIR=/opt/$PKG/modules
 
