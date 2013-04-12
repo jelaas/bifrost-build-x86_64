@@ -1,14 +1,14 @@
 #!/bin/bash
 
-SRCVER=netmap-20120813
-PKG=$SRCVER-1 # with build version
-
 # Kernel dependency
 V=3.4.39
 ARCH=x86_64
 KSRCVER=kernel-$V
 KBUILDVERSION=1
 KPKG=kernel-$ARCH-$V-$KBUILDVERSION # with build version
+
+SRCVER=netmap-20120813
+PKG=$SRCVER-$KPKG # with build version
 
 # PKGDIR is set by 'pkg_build'. Usually "/var/lib/build/all/$PKG".
 PKGDIR=${PKGDIR:-/var/lib/build/all/$PKG}
@@ -43,6 +43,7 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 pkg_install libpcap-1.1.1-1 || exit 2
 pkg_install patch-2.7.1-1 || exit 2
 pkg_install kernel-x86_64-3.4.39-1 || exit 2
+pkg_install kernel-x86_64-headers-3.6.0-4
 
 # Compile against musl:
 # pkg_install musl-0.9.9-2 || exit 2 
@@ -73,6 +74,7 @@ sed -i "s/BIFROST/${BUILDVERSION}-bifrost-$ARCH/" .config
 #prepare kernel
 make scripts || exit 1
 make prepare || exit 1 
+cp /usr/lib/modules/3.6.0/build/Module.symvers .
 
 #########
 cd $(dirname $BUILDDIR);
