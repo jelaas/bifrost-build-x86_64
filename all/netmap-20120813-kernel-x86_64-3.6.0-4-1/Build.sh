@@ -107,14 +107,14 @@ make KSRC=$KBUILDDIR apps || exit 1
 # Install into dir under /var/tmp/install
 rm -rf "$DST"
 DESTDIR=$DST/opt/netmap # --with-install-prefix may be an alternative
-mkdir -p $DESTDIR
+mkdir -p $DESTDIR/$V
 
 #MODULES
-cp netmap_lin.ko $DESTDIR/$V
-cp ixgbe/ixgbe.ko $DESTDIR/$V
-cp e1000/e1000.ko $DESTDIR/$V
-cp forcedeth.ko $DESTDIR/$V
-cp igb/igb.ko $DESTDIR/$V
+cp netmap_lin.ko $DESTDIR/$V/
+cp ixgbe/ixgbe.ko $DESTDIR/$V/
+cp e1000/e1000.ko $DESTDIR/$V/
+cp forcedeth.ko $DESTDIR/$V/
+cp igb/igb.ko $DESTDIR/$V/
 
 
 #APPS
