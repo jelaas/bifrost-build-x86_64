@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # Kernel dependency
-V=3.4.39
+V=3.6.0
 ARCH=x86_64
 KSRCVER=kernel-$V
-KBUILDVERSION=1
+KBUILDVERSION=4
 KPKG=kernel-$ARCH-$V-$KBUILDVERSION # with build version
 
 SRCVER=netmap-20120813
-PKG=$SRCVER-$KPKG # with build version
+PKG=$SRCVER-$KPKG-1 # with build version
 
 # PKGDIR is set by 'pkg_build'. Usually "/var/lib/build/all/$PKG".
 PKGDIR=${PKGDIR:-/var/lib/build/all/$PKG}
@@ -42,8 +42,8 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 # pkg_available dependency1-1 dependency2-1
 pkg_install libpcap-1.1.1-1 || exit 2
 pkg_install patch-2.7.1-1 || exit 2
-pkg_install kernel-x86_64-3.4.39-1 || exit 2
-pkg_install kernel-x86_64-headers-3.6.0-4
+pkg_install $KPKG || exit 2
+pkg_install kernel-x86_64-headers-$V-$KBUILDVERSION
 
 # Compile against musl:
 # pkg_install musl-0.9.9-2 || exit 2 
@@ -63,18 +63,33 @@ function dopatch {
 }
 cd $KBUILDDIR || exit 1
 #Add patches
+dopatch -p1 $KPKGDIR/lockdep.pat || exit 1
+dopatch -p0 $KPKGDIR/menuconfig.pat || exit 1
 dopatch -p1 $KPKGDIR/ixgbe_sfp_override.pat || exit 1
-dopatch -p1 $KPKGDIR/pktgen-rx.pat || exit 1
+dopatch -p0 $KPKGDIR/ixgbe_rss.pat || exit 1
+dopatch -p1 $KPKGDIR/pktgen_rx-linux3.6-rc2.patch || exit 1
+
+dopatch -p1 $KPKGDIR/DOM-core-110310.pat || exit 1
+dopatch -p1 $KPKGDIR/DOM-core-doc-110310.pat || exit 1
+dopatch -p1 $KPKGDIR/DOM-include-ethtool.pat || exit 1
+dopatch -p1 $KPKGDIR/DOM-core-ethtool.pat || exit 1
+dopatch -p0 $KPKGDIR/DOM-igb.pat || exit 1
+dopatch -p0 $KPKGDIR/DOM-ixgbe.pat || exit 1
+dopatch -p1 $KPKGDIR/e1000.pat || exit 1
+dopatch -p1 $KPKGDIR/e1000e.pat || exit 1
+
+#dopatch -p0 $KPKGDIR/dev_c_remove_module_spam.pat || exit 1
+#dopatch -p1 $KPKGDIR/niu.pat || exit 1
 
 # Configure
 cp -f $KPKGDIR/config .config
 # exit 1 # This is a nice place to break if you want to change the kernel config
-sed -i "s/BIFROST/1-bifrost-$ARCH/" .config
+sed -i "s/BIFROST/${KBUILDVERSION}-bifrost-$ARCH/" .config
 
 #prepare kernel
 make scripts || exit 1
 make prepare || exit 1 
-cp /usr/lib/modules/3.6.0/build/Module.symvers .
+cp /usr/lib/modules/$V/build/Module.symvers .
 
 #########
 cd $(dirname $BUILDDIR);
@@ -95,11 +110,11 @@ DESTDIR=$DST/opt/netmap # --with-install-prefix may be an alternative
 mkdir -p $DESTDIR
 
 #MODULES
-cp netmap_lin.ko $DESTDIR
-cp ixgbe/ixgbe.ko $DESTDIR
-cp e1000/e1000.ko $DESTDIR
-cp forcedeth.ko $DESTDIR
-cp igb/igb.ko $DESTDIR
+cp netmap_lin.ko $DESTDIR/$V
+cp ixgbe/ixgbe.ko $DESTDIR/$V
+cp e1000/e1000.ko $DESTDIR/$V
+cp forcedeth.ko $DESTDIR/$V
+cp igb/igb.ko $DESTDIR/$V
 
 
 #APPS
@@ -138,5 +153,6 @@ tar czf /var/spool/pkg/$PKG.tar.gz .
 cd /var/lib/build
 [ "$DEVEL" ] || rm -rf "$DST"
 [ "$DEVEL" ] || rm -rf "$BUILDDIR"
+[ "$DEVEL" ] || rm -rf "$KBUILDDIR"
 pkg_uninstall
 exit 0
