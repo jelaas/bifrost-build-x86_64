@@ -1,5 +1,5 @@
---- examples/Makefile	Fri Aug  3 12:45:56 2012
-+++ examples/Makefile	Thu Apr 11 13:17:10 2013
+--- netmap/examples/Makefile	Fri Aug  3 12:45:56 2012
++++ netmap/examples/Makefile	Thu Apr 11 13:17:10 2013
 @@ -2,12 +2,12 @@
  # we can just define 'progs' and create custom targets.
  PROGS	=	pkt-gen bridge testpcap libnetmap.so
@@ -15,8 +15,8 @@
  CFLAGS += -I ../sys # -I/home/luigi/FreeBSD/head/sys -I../sys
  CFLAGS += -Wextra
  
---- examples/nm_util.h	Fri Aug  3 12:45:56 2012
-+++ examples/nm_util.h	Thu Apr 11 12:53:58 2013
+--- netmap/examples/nm_util.h	Fri Aug  3 12:45:56 2012
++++ netmap/examples/nm_util.h	Thu Apr 11 12:53:58 2013
 @@ -39,7 +39,7 @@
  #include <string.h>	/* strcmp */
  #include <fcntl.h>	/* open */
@@ -26,8 +26,8 @@
  
  #include <sys/mman.h>	/* PROT_* */
  #include <sys/ioctl.h>	/* ioctl */
---- examples/pkt-gen.c	Wed Aug  8 16:30:02 2012
-+++ examples/pkt-gen.c	Thu Apr 11 13:23:20 2013
+--- netmap/examples/pkt-gen.c	Wed Aug  8 16:30:02 2012
++++ netmap/examples/pkt-gen.c	Thu Apr 11 13:23:20 2013
 @@ -205,6 +205,9 @@
  static int
  source_hwaddr(const char *ifname, char *buf)
