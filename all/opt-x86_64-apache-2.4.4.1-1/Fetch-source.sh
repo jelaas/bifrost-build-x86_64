@@ -12,7 +12,7 @@ if [ ! -s "$DST" ]; then
 	rm -rf $VER
 	/opt/git/bin/git clone git://git.apache.org/httpd.git $VER || exit 1
 	cd $VER  || exit 1
-	/opt/git/bin/git checkout ab3aa475d7bbc2e6253dcdbb83705f26e88eec4f || exit 1
+	/opt/git/bin/git checkout 8731b17c1ddf2b3867bccd9d7e399afb6e953ebc || exit 1
 	cd /tmp
  	tar czf $DST $VER
   	rm -rf $VER
