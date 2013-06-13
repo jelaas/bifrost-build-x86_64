@@ -54,6 +54,9 @@ cp $PKGDIR/PrintPath $PKGDIR/config.sub build  || exit 1
 cp $PKGDIR/config.guess build  || exit 1
 cp $PKGDIR/ap_config_auto.h.in include || exit 1
 
+# Bump maximum size of socache
+sed -i 's/64/1024/' modules/cache/mod_socache_shmcb.c || exit 1
+
 #########
 # Configure
 
