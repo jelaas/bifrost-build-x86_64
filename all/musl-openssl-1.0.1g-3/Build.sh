@@ -29,7 +29,7 @@ patch -p0 < $PKGDIR/default_ciphers.pat || exit 1
 
 #########
 # Configure
-./Configure linux-x86_64 --prefix=/opt/musl --openssldir=/etc/ssl no-shared no-bf no-cast no-md2 no-mdc2 no-rc2 no-rc4 no-rc5 no-idea no-ripemd no-dso no-jpake no-md4 no-srp no-ssl2 no-ssl3
+./Configure linux-x86_64 --prefix=/opt/musl --openssldir=/etc/ssl no-shared no-bf no-cast no-md2 no-mdc2 no-rc2 no-rc4 no-rc5 no-idea no-ripemd no-dso no-jpake no-md4 no-srp no-ssl2
 
 #########
 # Post configure patch
