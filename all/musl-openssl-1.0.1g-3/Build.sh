@@ -42,7 +42,7 @@ sed -i 's/$${LDCMD} $${LDFLAGS} -o/$${LDCMD} $${LDFLAGS} -static -o/g' Makefile.
 #########
 # Compile
 make depend
-for CIPH in bf cast md2 mdc2 rc2 rc5 rc5 idea ripemd ec camellia jpake md4 srp; do
+for CIPH in bf cast md2 mdc2 rc2 rc5 rc5 idea ripemd jpake md4 srp; do
 	rm -rf crypto/$CIPH
 done
 LDFLAGS="-static" make || exit 1
