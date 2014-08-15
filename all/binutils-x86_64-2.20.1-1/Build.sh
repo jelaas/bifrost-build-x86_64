@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SRCVER=binutils-2.20.1
-PKG=$SRCVER-x86_64-1 # with build version
+PKG=x86_64-$SRCVER-1 # with build version
 
 PKGDIR=${PKGDIR:-/var/lib/build/all/$PKG}
 SRC=/var/spool/src/$SRCVER.tar.bz2
@@ -51,9 +51,9 @@ cd $DST
 #########
 # Clean up
 cd $DST
-rm -rf usr/share
+rm -rf usr
+rm -f ./bin64/c++filt ./bin64/objcopy ./bin64/addr2line ./bin64/gprof ./bin64/as ./bin64/ld
 [ -d bin64 ] && strip bin64/*
-[ -d usr/bin ] && strip usr/bin/*
 
 #########
 # Make package
