@@ -1,7 +1,8 @@
 #!/bin/bash
 
-SRCVER=binutils-2.20.1
-PKG=x86_64-$SRCVER-1 # with build version
+VER=2.20.1
+SRCVER=binutils-$VER
+PKG=binutils-x86_64-$VER-1 # with build version
 
 PKGDIR=${PKGDIR:-/var/lib/build/all/$PKG}
 SRC=/var/spool/src/$SRCVER.tar.bz2
