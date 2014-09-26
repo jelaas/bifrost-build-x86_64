@@ -866,7 +866,7 @@ int main(int argc, char **argv, char **envp)
 			sleep(1);
 			goto noinitcopy;
 		}
-		if(mount("/rootfs/sbin/init", "/sbin/init", NULL, MS_BIND|MS_RDONLY, NULL)) {
+		if(mount("/sbin/init", "/rootfs/sbin/init", NULL, MS_BIND|MS_RDONLY, NULL)) {
 			if(fstdout)
 	                        fprintf(fstdout, "INIT: bind mount(\"/rootfs/sbin/init\", \"/sbin/init\") failed: %s\n", strerror(errno));
 			sleep(1);
