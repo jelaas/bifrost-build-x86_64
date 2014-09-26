@@ -866,6 +866,12 @@ int main(int argc, char **argv, char **envp)
 			sleep(1);
 			goto noinitcopy;
 		}
+		if (mount("rootfs", "/", NULL, MS_REMOUNT|MS_NOATIME|MS_RDONLY, NULL) < 0) {
+			if(fstdout)
+				fprintf(fstdout, "INIT: failed to remount initramfs as read-only\n");
+			sleep(1);
+		}
+		
 		if(mount("/sbin/init", "/rootfs/sbin/init", NULL, MS_BIND|MS_RDONLY, NULL) ||
 		   mount("/sbin/init", "/rootfs/sbin/init", NULL, MS_BIND, NULL)) {
 			if(fstdout)
