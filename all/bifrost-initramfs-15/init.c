@@ -845,6 +845,10 @@ int main(int argc, char **argv, char **envp)
 			goto noinitcopy;
 		}
 		siz = statb.st_size;
+
+		if(mount("tmpfs", "/sbin","tmpfs", 0,"")) {
+			if(fstdout) fprintf(fstdout, "INIT: mount(\"tmpfs\", \"/sbin\") failed: %s\n", strerror(errno));
+		}
 		if( (fd = open("/rootfs/sbin/init", O_RDONLY)) == -1) {
 			if(fstdout) fprintf(fstdout, "INIT: open(\"/rootfs/sbin/init\", O_RDONLY) failed: %s\n", strerror(errno));
 			sleep(1);
@@ -856,7 +860,7 @@ int main(int argc, char **argv, char **envp)
 			goto noinitcopy;
 		}
 		if(data(fd, siz, ofd)) {
-			if(fstdout) fprintf(fstdout, "INIT: datacopy failed: %s\n", strerror(errno));
+			if(fstdout) fprintf(fstdout, "INIT: datacopy of /sbin/init failed: %s\n", strerror(errno));
 			sleep(1);
 			goto noinitcopy;
 		}
@@ -869,6 +873,11 @@ int main(int argc, char **argv, char **envp)
 		if (mount("rootfs", "/", NULL, MS_REMOUNT|MS_NOATIME|MS_RDONLY, NULL) < 0) {
 			if(fstdout)
 				fprintf(fstdout, "INIT: failed to remount initramfs as read-only\n");
+			sleep(1);
+		}
+		if (mount("tmpfs", "/sbin", NULL, MS_REMOUNT|MS_NOATIME|MS_RDONLY, NULL) < 0) {
+			if(fstdout)
+				fprintf(fstdout, "INIT: failed to remount \"/sbin\" as read-only\n");
 			sleep(1);
 		}
 		
