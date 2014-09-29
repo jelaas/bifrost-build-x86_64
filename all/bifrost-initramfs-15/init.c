@@ -872,10 +872,10 @@ int main(int argc, char **argv, char **envp)
 			sleep(1);
 		}
 		
-		if(mount("/sbin/init", "/rootfs/sbin/init", NULL, MS_BIND|MS_RDONLY, NULL) &&
-		   mount("/sbin/init", "/rootfs/sbin/init", NULL, MS_BIND, NULL)) {
+		if(mount("/sbin/init", "/rootfs/sbin/init", "tmpfs", MS_BIND|MS_RDONLY, NULL) &&
+		   mount("/sbin/init", "/rootfs/sbin/init", "tmpfs", MS_BIND, NULL)) {
 			if(fstdout)
-	                        fprintf(fstdout, "INIT: bind mount(\"/rootfs/sbin/init\", \"/sbin/init\") failed: %s\n", strerror(errno));
+	                        fprintf(fstdout, "INIT: bind mount(\"/sbin/init\", \"/rootfs/sbin/init\") failed: %s\n", strerror(errno));
 			sleep(1);
 		}
 	}
