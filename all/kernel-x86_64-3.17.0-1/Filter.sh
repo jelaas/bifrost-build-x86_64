@@ -53,7 +53,7 @@ while read L; do
 		continue
 	done
 
-	for supported in team e1000 igb ixgbe mdio libphy tulip veth macvlan tg3 niu ixgb bonding; do
+	for supported in team e1000 igb ixgbe i40e mdio libphy tulip veth macvlan tg3 niu ixgb bonding; do
 		[[ $L =~ $supported ]] && n=1
 	done
 	[ $n = 1 ] && continue
