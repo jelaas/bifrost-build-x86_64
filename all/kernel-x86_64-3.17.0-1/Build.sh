@@ -68,6 +68,8 @@ dopatch -p1 $PKGDIR/e1000e.pat || exit 1
 dopatch -p1 $PKGDIR/igb.pat || exit 1
 dopatch -p1 $PKGDIR/bonding.pat || exit 1
 
+dopatch -p1 $PKGDIR/i40e_rss.pat || exit 1
+
 dopatch -p1 $PKGDIR/niu.pat || exit 1
 
 dopatch -p0 $PKGDIR/fiber_gecko.pat || exit 1
