@@ -6,7 +6,7 @@
  	u16 rss_i = adapter->ring_feature[RING_F_RSS].indices;
 +	int rss_start = 0;
  
-+	if(rss_i)
++	if(rss_i > 1)
 +		rss_start = 1;
 +
  	/*
