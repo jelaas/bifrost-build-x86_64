@@ -9,6 +9,7 @@ PKG=kernel-$ARCH-$V-$BUILDVERSION # with build version
 # PKGDIR is set by 'pkg_build'. Usually "/var/lib/build/all/$PKG".
 PKGDIR=${PKGDIR:-/var/lib/build/all/$PKG}
 SRC=/var/spool/src/$SRCVER.tar.gz
+NETPLUS=/var/spool/src/kernel-$V-net++.pat.bz2
 BUILDDIR=/var/tmp/src/$SRCVER
 DSTS="/var/tmp/install/supported-$PKG" # supported modules
 DSTU="/var/tmp/install/unsupported-$PKG" # unsupported modules
@@ -54,10 +55,14 @@ function dopatch {
 	echo "patch $1 < $2"
 	patch $1 < $2 || exit 1
 }
+function dopatchbz {
+	echo "patch $1 < $2"
+	(bzcat $2|patch $1) || exit 1
+}
 
 cd $BUILDDIR || exit 1
 
-dopatch -p1 $PKGDIR/net++.pat || exit 1
+dopatchbz -p1 $NETPLUS || exit 1
 dopatch -p0 $PKGDIR/menuconfig.pat || exit 1
 dopatch -p1 $PKGDIR/ixgbe_sfp_override.pat || exit 1
 dopatch -p0 $PKGDIR/ixgbe_rss.pat || exit 1

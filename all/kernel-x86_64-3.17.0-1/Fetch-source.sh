@@ -19,3 +19,7 @@ if [ ! -s "$DST" ]; then
     tar czf $DST $VER
     rm -rf $VER
 fi
+
+SRC=kernel-$V-net++.pat.bz2
+DST=/var/spool/src/$SRC
+[ -s "$DST" ] || wget -O $DST http://bifrost-network.org/files/src/$SRC
