@@ -21,7 +21,7 @@ diff -ur httpd-2.4.10.orig/modules/proxy/mod_proxy_balancer.c httpd-2.4.10/modul
          }
          checked_standby = checking_standby++;
      }
-+    ap_log_rerror(APLOG_MARK, APLOG_DEBUG, 0, r, "JEL: find_route_worker failed for %s", *route);
++    ap_log_rerror(APLOG_MARK, APLOG_DEBUG, 0, r, "JEL: find_route_worker failed for %s", route);
      return NULL;
  }
  
