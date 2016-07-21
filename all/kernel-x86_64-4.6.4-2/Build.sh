@@ -62,6 +62,7 @@ function dopatchbz {
 
 cd $BUILDDIR || exit 1
 
+dopatch -p0 $PKGDIR/uncore_snbep.c.pat || exit 1
 dopatch -p1 $PKGDIR/patch-4.6.4 || exit 1
 
 dopatch -p0 $PKGDIR/menuconfig.pat || exit 1
