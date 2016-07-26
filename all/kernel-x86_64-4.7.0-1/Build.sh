@@ -63,10 +63,10 @@ function dopatchbz {
 cd $BUILDDIR || exit 1
 
 dopatch -p0 $PKGDIR/menuconfig.pat || exit 1
+dopatch -p1 $PKGDIR/ethtool_rxfh_indir_default.pat
 dopatch -p1 $PKGDIR/ixgbe_sfp_override.pat || exit 1
 dopatch -p0 $PKGDIR/ixgbe_rss.pat || exit 1
 dopatch -p1 $PKGDIR/pktgen-rx.pat || exit 1
-#dopatch -p0 $PKGDIR/fm10k_rss.pat || exit 1
 
 dopatch -p1 $PKGDIR/e1000.pat || exit 1
 dopatch -p1 $PKGDIR/e1000e.pat || exit 1
@@ -80,6 +80,9 @@ dopatch -p1 $PKGDIR/niu.pat || exit 1
 dopatch -p0 $PKGDIR/slub.pat || exit 1
 
 dopatch -p0 $PKGDIR/fiber_gecko.pat || exit 1
+
+# Backported bugfix
+dopatch -p1 $PKGDIR/fm10k.pat || exit 1
 
 #########
 # Configure
