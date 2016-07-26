@@ -58,7 +58,7 @@ while read L; do
 	done
 	[ $n = 1 ] && continue
 
-	for supported in team e1000 igb ixgbe i40e fm10k vxlan mdio libphy tulip veth macvlan tg3 niu ixgb bonding vmxnet; do
+	for supported in team e1000 igb ixgbe i40e fm10k vxlan mdio libphy tulip veth macvlan tg3 niu ixgb bonding vmxnet mlx; do
 		[[ $L =~ $supported ]] && n=1
 	done
 	[ $n = 1 ] && echo SUP: $L && continue
